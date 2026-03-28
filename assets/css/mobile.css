@@ -1,0 +1,450 @@
+/* Mobile CSS - 手机端样式 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: #f5f5f5;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+/* 页面切换 */
+.page {
+    display: none;
+    min-height: 100vh;
+}
+
+.page.active {
+    display: block;
+}
+
+/* 登录页面 */
+#loginPage {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    color: white;
+}
+
+.logo {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.login-container h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.class-name {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.95);
+    color: #333;
+    outline: none;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+    transition: transform 0.2s;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* 手机端头部 */
+.mobile-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.mobile-header h1 {
+    font-size: 20px;
+}
+
+.btn-logout {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* 宠物主页 */
+.pet-main {
+    padding: 20px;
+}
+
+.pet-display-large {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.pet-image-container {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.pet-emoji {
+    font-size: 100px;
+}
+
+.pet-stage {
+    font-size: 18px;
+    color: #666;
+    font-weight: 500;
+}
+
+.pet-image-custom {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* 阶段背景色 */
+.stage-egg { background: #FFE4B5; }
+.stage-baby { background: #98FB98; }
+.stage-young { background: #87CEEB; }
+.stage-adult { background: #DDA0DD; }
+
+/* 学生信息 */
+.student-info {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row .label {
+    color: #666;
+    font-size: 15px;
+}
+
+.info-row .value {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+.info-row .value.score {
+    color: #667eea;
+    font-size: 24px;
+}
+
+/* 操作按钮 */
+.actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.btn-action {
+    padding: 20px 10px;
+    background: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-action:active {
+    transform: scale(0.98);
+}
+
+/* 弹窗 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-height: 80vh;
+    border-radius: 20px 20px 0 0;
+    padding: 25px 20px;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.modal-small {
+    max-width: 320px;
+    max-height: auto;
+    border-radius: 16px;
+    margin: auto;
+}
+
+/* 认养弹窗 */
+.current-score {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.current-score span {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 20px;
+}
+
+.pet-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.pet-option {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.pet-option:active {
+    transform: scale(0.95);
+}
+
+.pet-option.selected {
+    border-color: #667eea;
+    background: #f0f3ff;
+}
+
+.pet-option .emoji {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.pet-option .name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.pet-option .rarity {
+    font-size: 12px;
+    color: #666;
+}
+
+.pet-option .cost {
+    font-size: 16px;
+    font-weight: 600;
+    color: #667eea;
+    margin-top: 10px;
+}
+
+/* 稀有度颜色 */
+.rarity-common { color: #999; }
+.rarity-rare { color: #4CAF50; }
+.rarity-epic { color: #9C27B0; }
+.rarity-legendary { color: #FF9800; }
+
+/* 上传区域 */
+.upload-area {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.upload-placeholder {
+    pointer-events: none;
+}
+
+.upload-placeholder span {
+    font-size: 50px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.upload-placeholder p {
+    color: #666;
+    margin: 5px 0;
+}
+
+.upload-placeholder .hint {
+    font-size: 12px;
+    color: #999;
+}
+
+/* 奖励列表 */
+.reward-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.reward-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reward-info {
+    flex: 1;
+}
+
+.reward-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.reward-cost {
+    color: #667eea;
+    font-weight: 600;
+}
+
+.reward-stock {
+    font-size: 12px;
+    color: #999;
+}
+
+.btn-redeem {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-redeem:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 按钮 */
+.btn-close, .btn-save {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
