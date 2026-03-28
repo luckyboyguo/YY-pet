@@ -54,9 +54,28 @@ class FeishuBitableSync {
         return `https://open.feishu.cn/open-apis/${normalizedPath}`;
     }
 
+    isHtmlResponse(contentType, text) {
+        if ((contentType || '').includes('text/html')) return true;
+        const body = String(text || '').trim().toLowerCase();
+        return body.startsWith('<!doctype html') || body.startsWith('<html');
+    }
+
+    isLikelyStaticPagesHost() {
+        const host = (window.location.hostname || '').toLowerCase();
+        return host.endsWith('.github.io') || host.endsWith('.gitee.io');
+    }
+
+    buildProxyUnavailableError() {
+        if (this.isLikelyStaticPagesHost()) {
+            return '当前是静态托管站点，未配置飞书代理（/api/feishu）。请使用本地代理服务 local-server.js 或自建后端代理。';
+        }
+        return '未检测到可用的飞书代理服务（/api/feishu）。请先启动 local-server.js。';
+    }
+
     async requestOpenApi(path, requestInit = {}) {
         const attempts = this.preferProxy ? [true, false] : [false, true];
         let lastError = null;
+        let proxyRouteUnavailable = false;
 
         for (const useProxy of attempts) {
             const url = this.buildOpenApiUrl(path, useProxy);
@@ -64,23 +83,27 @@ class FeishuBitableSync {
                 const response = await fetch(url, requestInit);
                 const contentType = (response.headers.get('content-type') || '').toLowerCase();
                 let payload = null;
+                let textBody = '';
 
                 if (contentType.includes('application/json')) {
                     payload = await response.json();
                 } else {
-                    const text = await response.text();
+                    textBody = await response.text();
                     try {
-                        payload = JSON.parse(text);
+                        payload = JSON.parse(textBody);
                     } catch (error) {
                         payload = {
                             code: response.ok ? 0 : response.status,
-                            msg: text || `HTTP ${response.status}`
+                            msg: textBody || `HTTP ${response.status}`
                         };
                     }
                 }
 
-                // 代理不可用时回退到直连
-                if (useProxy && response.status === 404) {
+                // 代理路由不存在时（常见于 GitHub/Gitee Pages）回退到直连
+                const htmlResponse = this.isHtmlResponse(contentType, textBody);
+                const proxyMissingStatus = response.status === 404 || response.status === 405 || response.status === 501;
+                if (useProxy && (proxyMissingStatus || htmlResponse)) {
+                    proxyRouteUnavailable = true;
                     continue;
                 }
 
@@ -91,6 +114,10 @@ class FeishuBitableSync {
                     break;
                 }
             }
+        }
+
+        if (proxyRouteUnavailable) {
+            throw new Error(this.buildProxyUnavailableError());
         }
 
         throw lastError || new Error('请求飞书接口失败');
@@ -250,7 +277,12 @@ class FeishuBitableSync {
             this.setLastError('');
             return result.data;
         } catch (error) {
-            this.setLastError(`请求失败: ${error.message || error}`);
+            const msg = error && error.message ? error.message : String(error);
+            if (String(msg).toLowerCase().includes('failed to fetch')) {
+                this.setLastError('浏览器拦截了跨域请求，请使用 local-server.js 访问本项目，或配置后端代理服务。');
+            } else {
+                this.setLastError(`请求失败: ${msg}`);
+            }
             console.error('飞书API请求失败:', error);
             return null;
         }
