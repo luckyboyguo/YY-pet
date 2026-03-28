@@ -2,16 +2,17 @@
 
 // ==================== 数据管理 =====================
 const PRESET_FEISHU_SYNC_CONFIG = {
-    appToken: 'NGN4bUtixarldGsRUlxcOKA2nLh',
-    tableId: 'tblQzpFr2Lom9cGi',
-    appId: 'cli_a93f38b753b89bcb',
-    appSecret: '2JTWU08gICZ5qvSsNXhRseZaCCj1wp88',
-    accessToken: 't-g1043sldRAQBVDLX3UWOIMDA2IXBOP6ZDXO3AJKU',
+    appToken: '',
+    tableId: '',
+    appId: '',
+    appSecret: '',
+    accessToken: '',
     proxyBasePath: '/api/feishu',
     preferProxy: true,
-    useCloudSync: true,
+    useCloudSync: false,
     syncInterval: 30
 };
+const FEISHU_CONFIG_RESET_VERSION = '2026-03-28-reset-v1';
 
 // ==================== 飞书同步管理 =====================
 class FeishuConfigManager {
@@ -31,6 +32,15 @@ class FeishuConfigManager {
 
     // 加载飞书配置
     loadConfig() {
+        // 一次性重置历史飞书配置，避免继续使用旧凭据
+        const resetVersion = localStorage.getItem('classpet_feishu_reset_version');
+        if (resetVersion !== FEISHU_CONFIG_RESET_VERSION) {
+            localStorage.setItem('classpet_feishu_config', JSON.stringify({
+                ...PRESET_FEISHU_SYNC_CONFIG
+            }));
+            localStorage.setItem('classpet_feishu_reset_version', FEISHU_CONFIG_RESET_VERSION);
+        }
+
         const configText = localStorage.getItem('classpet_feishu_config');
         if (!configText) {
             this.sync.init(PRESET_FEISHU_SYNC_CONFIG);
